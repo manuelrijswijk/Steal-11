@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#07140c">
+<title>STEAL 11 — V5</title>
+<style>
+:root{--felt:#0b2a19;--felt2:#104025;--gold:#d9b66a;--gold2:#f0d58b;--cream:#f8f2e6;--ink:#161513;--muted:#b8b3a8}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;min-height:100%;background:#050806;color:var(--cream);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{background:radial-gradient(circle at 50% 20%,#183a25,#07130d 58%,#040605 100%);overflow-x:hidden}
+main{width:min(780px,100%);margin:auto;padding:10px 9px 24px}.hidden{display:none!important}
+.logo{text-align:center;color:var(--gold);font-weight:950;letter-spacing:.23em;font-size:28px}.sub{text-align:center;color:#9e9a91;font-size:9px;letter-spacing:.2em;margin-bottom:9px}
+.table{position:relative;min-height:700px;border:2px solid #755f34;border-radius:34px;background:radial-gradient(ellipse at center,#18512e 0,#0e3b23 45%,#082616 80%,#061b10);box-shadow:inset 0 0 55px #0008,0 16px 40px #000b;overflow:hidden;padding:13px}
+.table:after{content:"";position:absolute;inset:12px;border:1px solid #b08d4c55;border-radius:27px;pointer-events:none}
+.topbar,.scorebar,.seat,.centerZone,.status,.handArea{position:absolute;z-index:4}.topbar{left:18px;right:18px;top:15px;display:flex;justify-content:space-between;font-size:11px}.round{color:var(--gold);font-weight:900;letter-spacing:.13em}.scorebar{top:40px;left:12px;right:12px;display:flex;gap:5px;justify-content:center;flex-wrap:wrap}.scorepill{background:#07140ddd;border:1px solid #b28c4655;border-radius:999px;padding:5px 8px;font-size:10px}.scorepill b{color:var(--gold2)}
+.seat{width:135px;text-align:center}.seat .name{font-size:11px;font-weight:900;text-shadow:0 2px 4px #000}.seat.active .name{color:var(--gold2)}.seat.s0{bottom:170px;left:50%;transform:translateX(-50%)}.seat.s1{left:7px;top:50%;transform:translateY(-50%)}.seat.s2{top:65px;left:50%;transform:translateX(-50%)}.seat.s3{right:7px;top:50%;transform:translateY(-50%)}
+.pile{display:flex;justify-content:center;align-items:flex-end;gap:3px;min-height:57px;margin-top:5px;flex-wrap:wrap;max-width:160px;margin-left:auto;margin-right:auto}.mini{width:34px;height:49px;border-radius:6px;border:1px solid #a59d8b;background:linear-gradient(145deg,#fffaf0,#d0c5b1);color:#111;box-shadow:2px 4px 7px #0008;position:relative;display:flex;align-items:center;justify-content:center;font-weight:950;font-size:18px}.mini.joker{background:linear-gradient(145deg,#f2d992,#8d6727);font-size:15px}.mini .miniCorner{position:absolute;top:3px;left:4px;font-size:6px;font-weight:900}.count{display:inline-block;background:#090b0a;border:1px solid var(--gold);color:var(--gold2);font-size:9px;border-radius:999px;padding:2px 6px;margin-top:1px}.usedText{font-size:9px;color:#bdb8ad;margin-top:3px;line-height:1.25;max-width:145px;margin-left:auto;margin-right:auto}.usedText b{color:#e2d8c2}
+.centerZone{left:50%;top:50%;transform:translate(-50%,-48%);width:76%;height:43%;display:flex;flex-direction:column;align-items:center;justify-content:center}.hint{font-size:11px;color:#c8c3b7;text-align:center;min-height:17px}.played{height:165px;display:flex;align-items:center;justify-content:center;gap:5px;position:relative}
+.played .tableCard{animation:dealIn .48s cubic-bezier(.2,.9,.25,1) both}
+@keyframes dealIn{from{opacity:0;transform:translateY(-90px) rotate(-12deg) scale(.7)}to{opacity:1;transform:translateY(0) rotate(0) scale(1)}}
+.tableCard{width:67px;height:98px;border-radius:10px;border:1px solid #aaa18e;background:linear-gradient(145deg,#fffaf0,#d0c6b2);color:var(--ink);box-shadow:0 9px 16px #0009;position:relative;display:flex;align-items:center;justify-content:center;font-weight:950}.tableCard.back{background:repeating-linear-gradient(45deg,#13161a,#13161a 6px,#282b30 6px,#282b30 12px);border:2px solid var(--gold);color:var(--gold);font-size:9px;letter-spacing:.08em;text-align:center}.tableCard .corner{position:absolute;font-size:9px}.tl{top:5px;left:6px}.br{bottom:5px;right:6px;transform:rotate(180deg)}.big{font-size:34px}.tableCard.joker{background:linear-gradient(145deg,#f2d992,#8d6727);border-color:#d2af57}
+.status{left:50%;bottom:153px;transform:translateX(-50%);color:var(--gold2);font-weight:900;font-size:11px;white-space:nowrap}
+.handArea{bottom:3px;left:50%;transform:translateX(-50%);width:98%;height:142px;display:flex;align-items:flex-end;justify-content:flex-start;overflow-x:auto;overflow-y:hidden;padding:0 9px 4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}.handArea::-webkit-scrollbar{display:none}
+.handCard{width:54px;min-width:54px;height:88px;margin-left:-8px;border-radius:10px;border:1px solid #aaa18e;background:linear-gradient(145deg,#fffaf0,#d1c6b2);color:#111;box-shadow:0 8px 14px #000a;position:relative;transition:transform .16s,margin .16s;cursor:pointer;flex:none}.handCard:first-child{margin-left:0}.handCard:nth-child(1){z-index:12}.handCard:nth-child(2){z-index:11}.handCard:nth-child(3){z-index:10}.handCard:nth-child(4){z-index:9}.handCard:nth-child(5){z-index:8}.handCard:nth-child(6){z-index:7}.handCard:nth-child(7){z-index:6}.handCard:nth-child(8){z-index:5}.handCard:nth-child(9){z-index:4}.handCard:nth-child(10){z-index:3}.handCard:nth-child(11){z-index:2}.handCard:nth-child(12){z-index:1}.handCard .n{font-size:26px;font-weight:950;position:absolute;inset:0;display:flex;align-items:center;justify-content:center}.handCard .c{position:absolute;top:5px;left:6px;font-size:9px;font-weight:900}.handCard .r{position:absolute;right:6px;bottom:5px;font-size:9px;font-weight:900;transform:rotate(180deg)}.handCard.joker{background:linear-gradient(145deg,#f2d992,#8d6727)}.handCard:hover,.handCard:active{transform:translateY(-19px);z-index:20}
+.modalWrap{position:fixed;inset:0;z-index:40;background:#000c;display:flex;align-items:center;justify-content:center;padding:14px}.modal{width:min(650px,100%);max-height:90vh;overflow:auto;background:#151519;border:1px solid #45434a;border-radius:22px;padding:19px;box-shadow:0 20px 60px #000}.modal h2{text-align:center;color:var(--gold);margin:5px 0 12px}.revealGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.tieGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:15px}.tieCard{height:92px;border-radius:10px;border:2px solid var(--gold);background:repeating-linear-gradient(45deg,#13161a,#13161a 6px,#282b30 6px,#282b30 12px);color:var(--gold);font-size:9px;font-weight:900;letter-spacing:.08em;box-shadow:0 5px 10px #0008}.tieCard:active{transform:translateY(-3px)}.revealItem{background:#0c0d0f;border:1px solid #33343a;border-radius:13px;padding:9px;text-align:center}.flipCard{width:68px;height:98px;margin:8px auto 3px;perspective:700px}.flipInner{width:100%;height:100%;position:relative;transform-style:preserve-3d;animation:flipOpen .72s cubic-bezier(.2,.8,.25,1) forwards}.flipFace{position:absolute;inset:0;backface-visibility:hidden;border-radius:10px;border:1px solid #aaa18e;display:flex;align-items:center;justify-content:center;font-weight:950}.front{background:linear-gradient(145deg,#fffaf0,#d0c6b2);color:#111;transform:rotateY(180deg);font-size:35px}.back{background:repeating-linear-gradient(45deg,#13161a,#13161a 6px,#282b30 6px,#282b30 12px);border:2px solid var(--gold);color:var(--gold);font-size:9px;letter-spacing:.06em}.jokerFront{background:linear-gradient(145deg,#f2d992,#8d6727);color:#111}
+@keyframes flipOpen{from{transform:rotateY(0)}to{transform:rotateY(180deg)}}
+.win{text-align:center;background:#211e16;border:1px solid #6b5835;border-radius:14px;padding:13px;color:var(--gold2);font-weight:900;margin:12px 0}.win small{display:block;color:#c8c1b0;margin-top:3px}
+.stealOptions{display:grid;gap:8px}.btn{border:1px solid #4c4a44;background:#29282e;color:var(--cream);border-radius:13px;padding:13px 15px;font-weight:850;font-size:15px}.btn.primary{background:var(--gold);color:#15130e;border-color:var(--gold)}.btn.big{width:100%;padding:16px;font-size:17px}.stealOption{text-align:left}.stealOption b{color:var(--gold2)}
+.setup{position:relative;z-index:100;pointer-events:auto;background:#151519;border:1px solid #3b3a40;border-radius:22px;padding:25px 18px;text-align:center;margin-top:35px}.setup h1{color:var(--gold);font-size:46px;letter-spacing:.12em;margin:0}.choice{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:15px 0}.choice .active{background:var(--gold);color:#15130e}.names{display:grid;gap:6px;margin:12px 0}.setup button,.setup input{position:relative;z-index:101;pointer-events:auto;touch-action:manipulation}.names input{width:100%;background:#0d0e11;color:#fff;border:1px solid #44444a;border-radius:11px;padding:13px;font-size:16px}.pass{position:fixed;inset:0;z-index:50;margin:0;padding:22px;background:#050505;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
+.passCard{width:min(390px,92vw);background:linear-gradient(160deg,#1b1a20,#101014);border:1px solid #5b5548;border-radius:28px;padding:30px 24px 24px;text-align:center;box-shadow:0 25px 70px #000c, inset 0 1px 0 #ffffff12}
+.passIcon{width:66px;height:66px;margin:0 auto 16px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:#0b2618;border:1px solid #8b6f3a;color:var(--gold2);font-size:34px;box-shadow:inset 0 0 20px #0008}
+.passLabel{color:#aaa;font-size:10px;letter-spacing:.22em;font-weight:800}
+.passName{font-size:34px;font-weight:950;color:var(--gold2);margin:7px 0 10px}
+.passText{color:#aaa;font-size:14px;line-height:1.45;margin:0 auto 22px;max-width:280px}
+.pass .btn.big{margin-top:0}
+.pass .icon{font-size:58px}.pass h2{color:var(--gold)}.passName{font-size:27px;font-weight:900}
+@media(max-width:500px){.table{min-height:680px}.seat{width:110px}.seat.s1{left:2px}.seat.s3{right:2px}.centerZone{width:84%}.handCard{width:55px;height:85px}.status{bottom:153px}}
+.setupCard{position:relative;z-index:20;pointer-events:auto}.setupCard button,.setupCard input{pointer-events:auto;position:relative;z-index:21}</style>
+</head>
+<body>
+<main>
+<div class="logo">STEAL 11</div><div class="sub">THE DIGITAL CARD GAME · V21</div>
+
+<section id="setup" class="setup">
+<h1>STEAL 11</h1><p style="color:#aaa">Play smart. Steal smarter.</p>
+<h3>Aantal spelers</h3>
+<div id="countChoice" class="choice"><button type="button" class="btn active" data-n="2" onclick="setCount(2)">2</button><button type="button" class="btn" data-n="3" onclick="setCount(3)">3</button><button type="button" class="btn" data-n="4" onclick="setCount(4)">4</button></div>
+<div id="names" class="names"><input id="nm0" value="Speler 1"><input id="nm1" value="Speler 2"></div><button type="button" class="btn primary big" onclick="startGame()">DEAL THE CARDS</button>
+<p style="color:#aaa;font-size:12px">1–11 + 1 Joker per speler · 12 rondes</p>
+</section>
+
+<section id="pass" class="pass hidden">
+  <div class="passCard">
+    <div class="passIcon">🂠</div>
+    <div class="passLabel">PASS THE PHONE</div>
+    <div id="passName" class="passName"></div>
+    <p class="passText">Geef de telefoon door.<br>Maak je hand privé voordat je verdergaat.</p>
+    <button class="btn primary big" onclick="ready()">I'M READY</button>
+  </div>
+</section>
+
+<section id="game" class="hidden">
+<div class="table">
+<div class="topbar"><span id="roundLabel" class="round"></span><span id="topHint"></span></div><div id="scorebar" class="scorebar"></div>
+<div id="seats"></div><div class="centerZone"><div id="hint" class="hint"></div><div id="played" class="played"></div></div>
+<div id="status" class="status"></div><div id="hand" class="handArea"></div>
+</div></section>
+<div id="modalRoot"></div>
+</main>
+
+<script>
+let N=2,players=[],round=1,current=0,plays=[],jokerWinner=null,finalTie=null;
+function setCount(n){N=n;document.querySelectorAll('#countChoice .btn').forEach(b=>b.classList.toggle('active',+b.dataset.n===n));makeNames()}
+function makeNames(){let s='';for(let i=0;i<N;i++)s+='<input id="nm'+i+'" value="Speler '+(i+1)+'">';document.getElementById('names').innerHTML=s}makeNames();
+function startGame(){players=[];for(let i=0;i<N;i++)players.push({name:document.getElementById('nm'+i).value.trim()||'Speler '+(i+1),hand:[1,2,3,4,5,6,7,8,9,10,11,'J'],used:[],cards:[],history:[]});round=1;current=0;plays=[];document.getElementById('setup').classList.add('hidden');showPass()}
+function showPass(){
+ document.getElementById('game').classList.add('hidden');
+ document.getElementById('pass').classList.remove('hidden');
+ document.getElementById('passName').textContent=players[current].name;
+ // Do NOT render the next player's hand until they have pressed I'M READY.
+ document.getElementById('hand').innerHTML='';
+ document.getElementById('status').textContent='';
+}
+function ready(){
+ document.getElementById('pass').classList.add('hidden');
+ document.getElementById('game').classList.remove('hidden');
+ render();
+}
+function render(){document.getElementById('roundLabel').textContent='RONDE '+round+' / 12';renderScores();renderSeats();renderHand();document.getElementById('hint').textContent=players[current].name+' — kies één kaart'}
+function renderScores(){document.getElementById('scorebar').innerHTML=players.map(p=>'<span class="scorepill">'+esc(p.name)+' <b>'+p.cards.length+'</b></span>').join('')}
+function renderSeats(){document.getElementById('seats').innerHTML=players.map((p,i)=>'<div class="seat s'+i+' '+(i===current?'active':'')+'"><div class="name">'+esc(p.name)+'</div><div class="pile">'+usedCards(p.history)+'</div><span class="count">'+p.cards.length+' gewonnen</span></div>').join('')}
+function pile(n){let s='';for(let i=0;i<Math.min(3,Math.max(0,n));i++)s+='<span class="mini"></span>';return s}
+function usedCards(history){if(!history.length)return '<span style="color:#8f8b82;font-size:9px">Nog geen kaarten gespeeld</span>';return history.map(()=>'<span class="mini" style="background:repeating-linear-gradient(45deg,#13161a,#13161a 4px,#282b30 4px,#282b30 8px);border-color:var(--gold);color:var(--gold);font-size:7px;letter-spacing:.03em">STEAL<br>11</span>').join('')}
+function renderHand(){let p=players[current],h='';p.hand.forEach((v,i)=>{if(!p.used.includes(i))h+='<button class="handCard '+(v==='J'?'joker':'')+'" onclick="playCard('+i+')"><span class="c">'+(v==='J'?'★':v)+'</span><span class="n">'+(v==='J'?'🃏':v)+'</span><span class="r">'+(v==='J'?'★':v)+'</span></button>'});document.getElementById('hand').innerHTML=h;document.getElementById('status').textContent=p.name+' — '+(12-p.used.length)+' kaarten over'}
+function playCard(idx){
+ let p=players[current],v=p.hand[idx];
+ p.used.push(idx);
+ p.history.push(v);
+ plays.push({player:current,value:v});
+ // Immediately remove the current hand from the DOM.
+ document.getElementById('hand').innerHTML='';
+ document.getElementById('status').textContent='';
+ current++;
+ document.getElementById('played').innerHTML=plays.map((x,k)=>hiddenPlayedCard(k)).join('');
+ if(current<N)showPass();else reveal();
+}
+function smallCard(v){return '<div class="tableCard '+(v==='J'?'joker':'')+'"><span class="corner tl">'+v+'</span><span class="big">'+(v==='J'?'🃏':v)+'</span><span class="corner br">'+v+'</span></div>'}
+function hiddenPlayedCard(k){return '<div class="tableCard back" style="animation-delay:'+k*.14+'s">STEAL<br>11</div>'}
+function reveal(){
+ document.getElementById('game').classList.add('hidden');
+ let j=plays.find(x=>x.value==='J');
+ let normal=plays.filter(x=>x.value!=='J');
+ let max=normal.length?Math.max(...normal.map(x=>Number(x.value))):-1;
+ let winners=j?[j.player]:normal.filter(x=>Number(x.value)===max).map(x=>x.player);
+ if(j)jokerWinner=j.player;
+ let grid=plays.map((x,k)=>'<div class="revealItem"><b>'+esc(players[x.player].name)+'</b><div class="flipCard" style="animation-delay:'+k*.22+'s"><div class="flipInner" style="animation-delay:'+k*.22+'s"><div class="flipFace back">STEAL<br>11</div><div class="flipFace front '+(x.value==='J'?'jokerFront':'')+'">'+(x.value==='J'?'🃏':x.value)+'</div></div></div></div>').join('');
+ if(!j && winners.length>1){
+    // In ronde 12 mogen dezelfde kaarten niet opnieuw worden gespeeld.
+    // Bij bijvoorbeeld 9-9 gaat het spel anders eindeloos opnieuw dezelfde kaart vragen.
+    if(round===12){
+      startFinalTie(winners);
+      return;
+    }
+   document.getElementById('modalRoot').innerHTML='<div class="modalWrap"><div class="modal"><div style="color:#aaa;font-size:11px;letter-spacing:.15em">ROUND TIE</div><h2>GELIJKSPEL — V20</h2><p style="color:#aaa;text-align:center">Niemand wint deze ronde.</p><div class="revealGrid">'+grid+'</div><div class="win">↩️ De gespeelde kaarten gaan terug naar hun eigenaars.</div><button class="btn primary big" onclick="returnTieCards()">RETURN CARDS</button></div></div>';
+   return;
+ }
+ let w=winners[0];
+ players[w].cards.push(...Array.from({length:N},()=>({round:round})));
+ document.getElementById('modalRoot').innerHTML='<div class="modalWrap"><div class="modal"><div style="color:#aaa;font-size:11px;letter-spacing:.15em">ROUND REVEAL</div><h2>OPEN THE CARDS</h2><p style="color:#aaa;text-align:center;font-size:12px">Alle kaarten worden nu tegelijk zichtbaar.</p><div class="revealGrid">'+grid+'</div><div class="win">🏆 '+esc(players[w].name)+' WINS · +'+N+' CARDS</div><button class="btn primary big" onclick="'+(j?'jokerSteal()':(round===12?'finishRound12()':'nextRound()'))+'">'+(j?'JOKER POWER':(round===12?'FINISH GAME':'NEXT ROUND'))+'</button></div></div>';
+}
+function returnTieCards(){
+ plays.forEach(x=>{
+   let p=players[x.player];
+   let handIdx=p.hand.indexOf(x.value);
+   let usedIdx=p.used.indexOf(handIdx);
+   if(usedIdx!==-1)p.used.splice(usedIdx,1);
+   let histIdx=p.history.lastIndexOf(x.value);
+   if(histIdx!==-1)p.history.splice(histIdx,1);
+ });
+ document.getElementById('modalRoot').innerHTML='';
+ plays=[];current=0;render();showPass();
+}
+function jokerSteal(){let opts=[];players.forEach((p,i)=>{if(i!==jokerWinner&&p.cards.length)opts.push({i,count:p.cards.length})});if(!opts.length){nextRound();return}let h='<div class="modalWrap"><div class="modal"><div style="color:#aaa;font-size:11px;letter-spacing:.15em">JOKER POWER</div><h2>STEAL ONE ROUND</h2><p style="color:#aaa">'+esc(players[jokerWinner].name)+', kies een gewonnen stapel.</p><div class="stealOptions">';opts.forEach(o=>h+='<button class="btn stealOption" onclick="stealFrom('+o.i+')">'+esc(players[o.i].name)+' · <b>'+o.count+' kaarten</b></button>');h+='<button class="btn" onclick="nextRound()">DON’T STEAL</button></div></div></div>';document.getElementById('modalRoot').innerHTML=h}
+function stealFrom(i){let take=Math.min(N,players[i].cards.length);players[i].cards.splice(0,take);players[jokerWinner].cards.push(...Array.from({length:take},()=>({stolen:true,round:round})));nextRound()}
+function nextRound(){
+ document.getElementById('modalRoot').innerHTML='';
+ // Every player has 12 cards, so all 12 must be played.
+ if(round===12){endGame();return}
+ round++;current=0;plays=[];jokerWinner=null;
+ document.getElementById('played').innerHTML='';
+ showPass();
+}
+function finishRound12(){
+ document.getElementById('modalRoot').innerHTML='';
+ // The 12th round is complete. Never start a 13th round.
+ endGame();
+}
+function endGame(){
+ let scores=players.map(p=>p.cards.length);
+ let max=Math.max(...scores);
+ let tied=players.map((p,i)=>scores[i]===max?i:-1).filter(i=>i!==-1);
+ if(tied.length>1){
+   startFinalTie(tied);
+   return;
+ }
+ showFinalResult(tied[0]);
+}
+function showFinalResult(winner){
+ let max=Math.max(...players.map(p=>p.cards.length));
+ let tied=players.map((p,i)=>p.cards.length===max?i:-1).filter(i=>i!==-1);
+ if(tied.length>1){
+   startFinalTie(tied);
+   return;
+ }
+ let s=[...players].sort((a,b)=>b.cards.length-a.cards.length);
+ let r=s.map((p,i)=>'<div style="padding:11px;background:#0d0e10;border-radius:10px;margin:6px 0">'+(i+1)+'. '+esc(p.name)+' — <b style="color:#d9b66a">'+p.cards.length+' kaarten</b></div>').join('');
+ document.getElementById('game').classList.add('hidden');
+ document.getElementById('modalRoot').innerHTML='<div class="modalWrap"><div class="modal"><div style="color:#aaa;font-size:11px;letter-spacing:.15em">FINAL RESULT</div><h2>🏆 '+esc(players[winner].name)+' WINS!</h2>'+r+'<button class="btn primary big" onclick="location.reload()" style="margin-top:12px">PLAY AGAIN</button></div></div>';
+}
+function startFinalTie(tied){
+ finalTie={
+   players:[...tied],
+   deck:Array.from({length:12},(_,i)=>i+1),
+   choices:[],
+   current:0
+ };
+ finalTie.deck.sort(()=>Math.random()-.5);
+ document.getElementById('game').classList.add('hidden');
+ showFinalTiePass();
+}
+function showFinalTiePass(){
+ let p=players[finalTie.players[finalTie.current]];
+ document.getElementById('modalRoot').innerHTML='<div class="modalWrap"><div class="modal"><div style="color:#aaa;font-size:11px;letter-spacing:.15em">FINAL TIE-BREAK</div><h2>GELIJKSPEL — V20</h2><div class="passIcon" style="margin:12px auto">🂠</div><p style="color:#aaa;text-align:center">De eindstand is gelijk.</p><p style="color:#aaa;text-align:center">Geef de telefoon aan <b style="color:#d9b66a">'+esc(p.name)+'</b>.</p><p style="color:#aaa;text-align:center;font-size:12px">Kies één van de 12 gesloten kaarten. De hoogste kaart wint.</p><button type="button" class="btn primary big" onclick="showFinalTieCards()">I’M READY</button></div></div>';
+}
+function showFinalTieCards(){
+ let cards=finalTie.deck.map((v,i)=>'<button type="button" class="tieCard" onclick="chooseFinalTie('+i+')">STEAL<br>11</button>').join('');
+ document.getElementById('modalRoot').innerHTML='<div class="modalWrap"><div class="modal"><div style="color:#aaa;font-size:11px;letter-spacing:.15em">FINAL TIE-BREAK</div><h2>KIES ÉÉN KAART</h2><p style="color:#aaa;text-align:center;font-size:12px">12 kaarten liggen gedekt. Kies één kaart.</p><div class="tieGrid">'+cards+'</div></div></div>';
+}
+function chooseFinalTie(index){
+ let value=finalTie.deck.splice(index,1)[0];
+ finalTie.choices.push({player:finalTie.players[finalTie.current],value:value});
+ if(finalTie.current<finalTie.players.length-1){
+   finalTie.current++;
+   showFinalTiePass();
+   return;
+ }
+ revealFinalTie();
+}
+function revealFinalTie(){
+ let grid=finalTie.choices.map((x,k)=>'<div class="revealItem"><b>'+esc(players[x.player].name)+'</b><div class="flipCard" style="margin-top:8px"><div class="flipInner" style="animation-delay:'+k*.25+'s"><div class="flipFace back">STEAL<br>11</div><div class="flipFace front">'+x.value+'</div></div></div></div>').join('');
+ let best=Math.max(...finalTie.choices.map(x=>x.value));
+ let winners=finalTie.choices.filter(x=>x.value===best);
+
+ if(winners.length>1){
+   document.getElementById('modalRoot').innerHTML='<div class="modalWrap"><div class="modal"><div style="color:#aaa;font-size:11px;letter-spacing:.15em">FINAL REVEAL</div><h2>NOGMAALS GELIJKSPEL</h2><div class="revealGrid">'+grid+'</div><div class="win">↩️ De hoogste gekozen kaart is opnieuw gelijk.</div><button type="button" class="btn primary big" onclick="restartFinalTie()">CHOOSE AGAIN</button></div></div>';
+   return;
+ }
+
+ let winner=winners[0].player;
+ let ranking=[...players].sort((a,b)=>b.cards.length-a.cards.length);
+ let r=ranking.map((p,i)=>'<div style="padding:11px;background:#0d0e10;border-radius:10px;margin:6px 0">'+(i+1)+'. '+esc(p.name)+' — <b style="color:#d9b66a">'+p.cards.length+' kaarten</b></div>').join('');
+ document.getElementById('modalRoot').innerHTML='<div class="modalWrap"><div class="modal"><div style="color:#aaa;font-size:11px;letter-spacing:.15em">FINAL REVEAL</div><h2>🏆 '+esc(players[winner].name)+' WINS!</h2><p style="color:#aaa;text-align:center">Finale kaart: <b style="color:#d9b66a;font-size:20px">'+best+'</b></p><div class="revealGrid">'+grid+'</div>'+r+'<button type="button" class="btn primary big" onclick="location.reload()" style="margin-top:12px">PLAY AGAIN</button></div></div>';
+}
+function restartFinalTie(){
+ // Keep already chosen tie-break cards out of the deck.
+ // This prevents the same card from being selected again after a tie.
+ finalTie.choices=[];
+ finalTie.current=0;
+ showFinalTiePass();
+}
+
+function esc(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('button').forEach(function(b){b.disabled=false});
+  makeNames();
+});
+</script>
+</body></html>
